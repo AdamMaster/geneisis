@@ -49,10 +49,12 @@ const sectionsSwitcher = {
 					const scrollY = currentSection.scrollTop;
 					const unFitHeight = scrollHeight - window.innerHeight;
 					if (e.deltaY > 0 && scrollY >= unFitHeight) {
+						if (!this.sections[this.currentIndex].nextElementSibling) return
 						this.increaseActiveIndex();
 						this.processSwitchingClassNames();
 						setAnimate()
 					} else if (e.deltaY < 0 && scrollY <= 0) {
+						if (!this.sections[this.currentIndex].previousElementSibling) return
 						this.decreaseActiveIndex();
 						this.processSwitchingClassNames();
 						setAnimate()
@@ -71,14 +73,26 @@ const sectionsSwitcher = {
 			}, { passive: false });
 		}, 200);
 	},
+
 	processSwitchingClassNames() {
 		this.sections[this.currentIndex].classList.remove('active');
-		this.sections[this.activeIndex].classList.add('active');
-		this.currentIndex = this.activeIndex;
+		setTimeout(() => {
+			this.sections[this.currentIndex].classList.remove('show');
+		}, 10);
+		setTimeout(() => {
+			this.sections[this.activeIndex].classList.add('show');
+			setTimeout(() => {
+				this.sections[this.activeIndex].classList.add('active');
+			}, 20);
+
+			this.currentIndex = this.activeIndex;
+		}, 20);
 	},
+
 	decreaseActiveIndex() {
 		if (this.activeIndex - 1 >= 0) { this.activeIndex-- }
 	},
+
 	increaseActiveIndex() {
 		if (this.activeIndex + 1 < this.sections.length) { this.activeIndex++ }
 	},

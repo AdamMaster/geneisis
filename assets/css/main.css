@@ -67,8 +67,11 @@ p:last-of-type {
   transition: .4s;
 }
 
-.section.active {
+.section.show {
   display: block;
+}
+
+.section.active {
   opacity: 1;
   visibility: visible;
 }
