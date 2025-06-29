@@ -45,54 +45,26 @@ const sectionsSwitcher = {
 				const inner = currentSection.querySelector('.section-inner');
 				const scrollHeight = inner.scrollHeight;
 				const canScrollInside = scrollHeight > window.innerHeight;
-
 				if (canScrollInside) {
 					const scrollY = currentSection.scrollTop;
 					const unFitHeight = scrollHeight - window.innerHeight;
-
 					if (e.deltaY > 0 && scrollY >= unFitHeight) {
-						this.stickCount--;
-						if (this.stickCount <= 0) {
-							this.increaseActiveIndex();
-							this.processSwitchingClassNames();
-							requestAnimationFrame(() => {
-								const observer = new IntersectionObserver(entries => {
-									const visibleEntries = entries
-										.filter(entry => entry.isIntersecting)
-										.sort((a, b) => a.target.dataset.index - b.target.dataset.index)
-
-									visibleEntries.forEach((entry, index) => {
-										setTimeout(() => {
-											entry.target.classList.add('animate')
-											observer.unobserve(entry.target)
-										}, index * 150)
-									})
-								})
-								document.querySelectorAll('.fade-down').forEach((el, index) => {
-									el.classList.remove('animate');
-									el.dataset.index = index;
-									observer.unobserve(el); // Отписываемся, если наблюдали
-									observer.observe(el);   // Подписываемся заново
-								});
-							});
-						}
+						this.increaseActiveIndex();
+						this.processSwitchingClassNames();
+						setAnimate()
 					} else if (e.deltaY < 0 && scrollY <= 0) {
-						this.stickCount--;
-						if (this.stickCount <= 0) {
-							this.decreaseActiveIndex();
-							this.processSwitchingClassNames();
-						}
+						this.decreaseActiveIndex();
+						this.processSwitchingClassNames();
+						setAnimate()
 					}
 				} else {
-					this.stickCount--;
-					if (this.stickCount <= 0) {
-						if (e.deltaY > 0) {
-							this.increaseActiveIndex();
-							this.processSwitchingClassNames();
-						} else if (e.deltaY < 0) {
-							this.decreaseActiveIndex();
-							this.processSwitchingClassNames();
-						}
+					if (e.deltaY > 0) {
+						this.increaseActiveIndex();
+						this.processSwitchingClassNames();
+					} else if (e.deltaY < 0) {
+						this.decreaseActiveIndex();
+						this.processSwitchingClassNames();
+						setAnimate()
 					}
 				}
 
@@ -142,5 +114,25 @@ const swiperVideos = new Swiper(".videos .swiper", {
 			slidesPerView: 3,
 			spaceBetween: 60
 		},
+	},
+})
+
+const setOpacityExtremeSlide = (swiperSelector, activeIndex) => {
+	const swiper = document.querySelector(swiperSelector)
+	const slides = swiper.querySelectorAll('.swiper-slide')
+
+	slides.forEach(slide => {
+		slide.classList.remove('opacity')
+	})
+
+	if (slides[activeIndex + 3]) {
+		slides[activeIndex + 3].classList.add('opacity')
 	}
+}
+
+setOpacityExtremeSlide('.videos .swiper', 0)
+
+swiperVideos.on('slideChange', function () {
+	console.log('Слайд сменился. Активный индекс:', this.activeIndex)
+	setOpacityExtremeSlide('.videos .swiper', this.activeIndex)
 })

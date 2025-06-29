@@ -74,6 +74,7 @@ p:last-of-type {
 }
 
 .section-inner {
+  width: 100%;
   padding: 80px 0;
 }
 
@@ -327,7 +328,14 @@ b {
 
 
 
+.info-banner.section {
+  align-items: center;
+  justify-content: center;
+}
 
+.info-banner.section.active {
+  display: flex;
+}
 
 .info-banner-layout {
   display: grid;
@@ -528,6 +536,16 @@ b {
   background: #fff;
 }
 
+.practices.section {
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.practices.section.active {
+  display: flex;
+}
+
 .practices-inner {
   color: var(--c-black);
 }
@@ -547,7 +565,7 @@ b {
   display: grid;
   grid-template-columns: 60px 1fr;
   background: var(--c-grey);
-  transition: .2s;
+  transition: background .2s, color .2s, translate .8s, opacity .8s;
   color: var(--c-black);
 }
 
@@ -588,7 +606,13 @@ b {
 
 .videos.section {
   overflow: hidden;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 0;
+}
+
+.videos.section.active {
+  display: flex;
 }
 
 .videos-inner {
@@ -711,6 +735,41 @@ b {
   overflow: initial;
 }
 
+.swiper-slide.opacity {
+  opacity: .3;
+}
+
+.videos-top {
+  padding: 70px 0 114px 0;
+}
+
+.videos-bottom {
+  padding: 48px 0;
+  background: #fff;
+}
+
+.videos-top {
+  background: var(--c-secondary);
+}
+
+.videos-top-inner {
+  position: relative;
+}
+
+.logos-group {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 70px;
+}
+
+.logos-group-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
 @media (max-width: 1199px) {
   body {
     overflow: initial;
@@ -788,6 +847,10 @@ b {
 
   .videos-inner {
     padding: 80px 0;
+  }
+
+  .logos-group {
+    gap: 30px;
   }
 }
 
@@ -875,6 +938,10 @@ b {
 
   .practices-item-text {
     font-size: 1rem;
+  }
+
+  .logos-group {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -1113,6 +1180,11 @@ b {
     padding: 60px 0;
   }
 
+  .videos-top {
+    padding-top: 50px;
+    padding-bottom: 80px;
+  }
+
   .videos-head {
     flex-direction: column;
     align-items: flex-start;
@@ -1126,7 +1198,11 @@ b {
   .swiper-nav {
     position: absolute;
     left: 0;
-    bottom: 20px;
+    bottom: -48px;
+  }
+
+  .logos-group {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
